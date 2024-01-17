@@ -1,4 +1,5 @@
 {% extends 'partials/base.html'%}
+{% load crispy_forms_tags %}
 {% block title %}Product page{% endblock %}
 
 {% block content%}
@@ -14,19 +15,21 @@
             </div>
             {% endif %}
             {% endfor %}
+        <div style=" border-bottom-right-radius: 20px;box-shadow: 12px 12px 20px 6px #2e6da4;">
             <div class="border bg-white p-3">
                 <h4>Add Products</h4>
                 <hr>
                 <form method="POST">
                     {% csrf_token %}
-                    {{ form }}
+                    {{ form|crispy }}
                     <input class="btn btn-success btn-block" type="submit" value="Add Product">
 
                 </form>
             </div>
         </div>
+        </div>
         <div class="col-md-8">
-            <table class="table bg-white">
+            <table style=" border-bottom-right-radius: 20px;box-shadow: 12px 12px 20px 6px #2e6da4;" class="table bg-white">
                 <thead class="bg-info">
                     <tr class="text-white">
                         <th scope="col">#</th>

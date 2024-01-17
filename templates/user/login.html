@@ -1,4 +1,5 @@
 {% extends 'partials/base.html' %}
+{% load crispy_forms_tags %}
 {% block title %}Login page {% endblock %}
 
 {% block content%}
@@ -17,7 +18,7 @@
                 <hr>
                 <form method="post">
                     {% csrf_token %}
-                    {{ form }}
+                    {{ form|crispy }}
                     <a href="{% url 'user-login' %}"><input class="btn btn-success"type="submit" value="login"></a>
                   
 

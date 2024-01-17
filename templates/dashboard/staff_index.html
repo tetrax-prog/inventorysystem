@@ -1,3 +1,4 @@
+{% load crispy_forms_tags %}
 <div class="container">
     
     <div class="row mt-4">
@@ -6,10 +7,10 @@
                 <div class="card-header">
                     Make Request
                 </div>
-                <div class="card-body">
+                <div style=" border-bottom-right-radius: 20px;box-shadow: 12px 12px 20px 6px #2e6da4;" class="card-body">
                     <form method="POST">
                         {% csrf_token %}
-                        {{ form }}
+                        {{ form|crispy }}
                         
                         <input class="btn btn-info btn-block" type="submit" value="Make Request">
                     </form>
@@ -22,7 +23,7 @@
                     Orders Records
                 </div>
                 <div class="card-body">
-                    <table class="table bg-white">
+                    <table style=" border-bottom-right-radius: 20px;box-shadow: 12px 12px 20px 6px #2e6da4;" class="table bg-white">
                         <thead class="bg-info text-white">
                             <tr>
                                 <th scope="col">Product</th>
