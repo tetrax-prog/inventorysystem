@@ -9,9 +9,10 @@ CATEGORY = (
 )
 # Create your models here.
 class Product(models.Model):
-    name = models.CharField(max_length=100, null=True)
-    category = models.CharField(max_length=20, null=True)
+    name = models.CharField(max_length=100,blank=True, null=True)
+    category = models.CharField(max_length=20,blank=True, null=True)
     quantity = models.PositiveIntegerField(null=True)
+    export_to_CSV = models.BooleanField(default=False)
 
     class Meta:
        verbose_name_plural = 'Product'

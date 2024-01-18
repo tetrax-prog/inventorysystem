@@ -4,8 +4,9 @@ from django.contrib.auth.decorators import login_required #ensures user has to l
 from django.contrib.auth import logout
 from django.contrib import messages
 from .models import Product, Order
-from .forms import ProductForm, OrderForm
+from .forms import ProductForm, OrderForm, StockSearchForm
 from django.contrib.auth.models import User
+import csv
 
 # Create your views here.
 #this displays the web user interface actually it routes to the pages that actually have the web pages
@@ -62,6 +63,7 @@ def staff_detail(request, pk):
 def product(request):   
     items = Product.objects.all() # this uses object relational mapping for fetching data from the database
     #items = Product.objects.raw('SELECT * FROM dashboard_product') # uses sql to fetch data from the database.
+    search_form = StockSearchForm(request.POST)
     product_count = items.count()
     workers_count = User.objects.all().count()
     orders_count = Order.objects.all().count()
@@ -75,9 +77,22 @@ def product(request):
             return redirect('dashboard-product')
     else:
         form = ProductForm()
+    if request.method=="POST" or None:
+        queryset = Product.objects.filter(category__icontains=search_form['category'].value(),
+									      name__icontains=search_form['name'].value(),)
+        if search_form['export_to_CSV'].value() == True:             
+                response = HttpResponse(content_type='text/csv')
+                response['Content-Disposition'] = 'attachment; filename="List of stock.csv"'
+                writer = csv.writer(response)
+                writer.writerow(['CATEGORY', ' NAME', 'QUANTITY'])
+                instance = queryset
+                for stock in instance:
+                    writer.writerow([stock.category, stock.name, stock.quantity])
+                return response
     context={
         'items':items,
         'form':form,
+        'search_form':search_form,
         'product_count':product_count,
         'workers_count':workers_count,
         'orders_count': orders_count,
